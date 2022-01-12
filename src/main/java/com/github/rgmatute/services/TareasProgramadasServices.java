@@ -15,7 +15,7 @@ public class TareasProgramadasServices {
 	@Autowired
 	CatalogoRepository catalogoRepository;
 
-	@Scheduled(cron = "0/15 * * * * *")
+	//@Scheduled(cron = "0/15 * * * * *")
 	public Object ActivarTareaProgramada() {
 		
 		long count = catalogoRepository.count();
