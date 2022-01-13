@@ -43,5 +43,18 @@ public class User implements Serializable {
 	@CreationTimestamp
 	@Column(name = "created_at")
 	private Date createdAt;
+	
+	@ManyToMany
+	@JoinTable (
+			name = "users_roles",
+			joinColumns = @JoinColumn( name = "user_id" ),
+			inverseJoinColumns = @JoinColumn(name = "role_id"),
+			uniqueConstraints = {
+					@UniqueConstraint(columnNames = {
+							"user_id", "role_id"
+					})
+			}
+	)
+	private Set<Role> roles;
 
 }
