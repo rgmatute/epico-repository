@@ -9,7 +9,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableAutoConfiguration
 @SpringBootApplication
-@ComponentScan(basePackages = { "com.github.rgmatute.api", "com.github.rgmatute.domain", "com.github.rgmatute.repository", "com.github.rgmatute.services" })
+@ComponentScan(basePackages = { "com.github.rgmatute.api", "com.github.rgmatute.domain", "com.github.rgmatute.repository", "com.github.rgmatute.services",
+		"com.github.rgmatute.config"})
 public class RepositorioApplication {
 
 	public static void main(String[] args) {
