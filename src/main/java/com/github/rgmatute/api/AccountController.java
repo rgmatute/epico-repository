@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.rgmatute.Utils.EpicoUtils;
+
 @RestController
 public class AccountController {
 	
@@ -18,7 +20,9 @@ public class AccountController {
 		
 		HashMap<String, Object> token = new HashMap<>();
 		
-		token.put("token", "1234566778");
+		String bearerToke = EpicoUtils.getJWT(username, "123");
+		
+		token.put("token", bearerToke);
 		
 		return token;
 	}

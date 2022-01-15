@@ -1,15 +1,55 @@
 package com.github.rgmatute.Utils;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
 public class EpicoUtils {
 	
 	
-	public static String getJWT() {
+	public static String getJWT(String username, String storeCode) {
 		
-		int validezInMin =  1440;
+		int validezInMin =  1; // 1440;
+		int validezInSeconds =  60;
 		String key = "cpMW1RjvLE41Ra3GwMZYTLhyMwZNesxo";
-		String token = "Bearer ";
+		String emisorToken = "https://www.google.com";
 		
-		return token;
+		int audience = 1;
+		
+		
+		Date time = new Date(System.currentTimeMillis());
+		List<GrantedAuthority> grandAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
+		
+		// ALMACENA INFORMACION EN EL TOKEN
+		HashMap<String, Object> clain = new HashMap<>();
+		clain.put("username", username);
+		clain.put("storeCode", storeCode);
+		
+		String token = Jwts
+				.builder()
+				.setIssuer(emisorToken)
+				.setAudience(String.valueOf(audience))
+				.setId(MD5(username + time))
+				.setIssuedAt(time)
+				.setNotBefore(time)
+				.setExpiration(new Date(System.currentTimeMillis() + (validezInSeconds * 1000)))
+				.claim("data", clain)
+				.claim("roles", grandAuthorities
+						.stream()
+						.map(GrantedAuthority::getAuthority)
+						.collect(Collectors.toList()))
+				.signWith(SignatureAlgorithm.HS256, key.getBytes()).compact()
+				;
+		
+		
+		return "Bearer " + token;
 	}
 	
 	
